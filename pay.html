@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>输入金额</title>
+    <!-- 移动端适配样式 -->
+    <style>
+        body {
+            text-align: center;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+        input {
+            width: 80%;
+            padding: 12px;
+            margin: 20px 0;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        button {
+            padding: 12px 24px;
+            background-color: #07c160; /* 微信绿色 */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- 输入框和按钮 -->
+    <input type="number" id="amount" step="0.01" placeholder="请输入金额（例如 100.00）">
+    <button onclick="submitAmount()">确定</button>
+
+    <script>
+        function submitAmount() {
+            const amount = document.getElementById('amount').value;
+            
+            // 验证输入是否为有效数字
+            if (!amount || isNaN(amount)) {
+                alert('请输入有效金额！');
+                return;
+            }
+
+            // 尝试关闭页面（微信环境）
+            try {
+                if (typeof WeixinJSBridge !== 'undefined') {
+                    WeixinJSBridge.invoke('closeWindow');
+                } else {
+                    window.close();
+                }
+            } catch (e) {
+                // 如果无法关闭，提示用户手动关闭
+                alert('提交成功！请手动关闭页面。');
+            }
+        }
+    </script>
+</body>
+</html>
